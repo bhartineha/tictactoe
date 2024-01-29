@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import './App.css'
 import Square from './component/square'
-import { calculateWinner } from './utility';
 
 const Board = () => {
   const [xIsNext, setXIsNext] = useState(true);
@@ -23,7 +22,6 @@ const Board = () => {
   }else{
     status = 'Next Player ' + (xIsNext? 'X': 'O')
   }
-  console.log(winner);
   function onRestart() {
     setXIsNext(true);
     setSquares(Array(9).fill(null));
@@ -54,3 +52,24 @@ const Board = () => {
 }
 
 export default Board
+
+function calculateWinner(squares:any) {
+  const winningPatterns = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ]
+
+  for (let i = 0; i < winningPatterns.length; i++) {
+    const [a, b, c] = winningPatterns[i];
+    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
+      return squares[a];
+    }
+  }
+  return null;
+}
